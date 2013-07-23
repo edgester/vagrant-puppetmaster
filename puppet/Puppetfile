@@ -1,0 +1,8 @@
+forge "http://forge.puppetlabs.com"
+
+mod 'puppetlabs/stdlib'
+mod 'puppetlabs/gcc'
+mod 'puppetlabs/apache'
+
+mod 'puppetlabs/passenger',
+  :git => 'https://github.com/apenney/puppetlabs-passenger.git'

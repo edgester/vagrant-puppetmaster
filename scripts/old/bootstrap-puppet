@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Install Puppet 3.x on Centos 6.x
+
+#############
+# Variables #
+#############
+
+arch=`uname -m`
+fqdn=`hostname -f`
+
+/usr/sbin/setenforce 0
+
+rpm -Uvh http://yum.puppetlabs.com/fedora/f18/products/$arch/puppetlabs-release-18-7.noarch.rpm
+
+# Install Ruby prerequisites
+yum -y install ruby ruby-lib ruby-rdoc ruby-augeas ruby-irb ruby-shadow rubygem-json rubygems libselinux-ruby
+
+# Install Puppet Server
+# Packages from PUPPETLABS: puppet puppet-server facter hiera
+yum --enablerepo=puppetlabs --enablerepo=epel -y install puppet puppet-server
+
+# Start the puppetmaster service to create SSL certificate
+/etc/init.d/puppetmaster start

@@ -1,0 +1,46 @@
+#!/bin/bash
+# instructions from http://www.6tech.org/2013/01/how-to-install-puppet-open-source-on-centos-6-3/
+
+PUPPETMASTER_IP="192.168.250.1"
+
+rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-6.noarch.rpm
+
+# Download puppet-server from Puppet Labs
+yum install -y puppet-server
+
+# Start Puppet-Server
+/etc/init.d/puppetmaster start
+
+# Set Puppet Master to run on startup
+puppet resource service puppetmaster ensure=running enable=true
+
+# Download apache and necessary dependencies
+yum install -y httpd httpd-devel mod_ssl ruby-devel rubygems gcc-c++ curl-devel zlib-devel make automake
+
+# Install Rack/Passenger
+gem install rack passenger
+
+# autoconfigure the apache module
+passenger-install-apache2-module -a
+
+# Create the directory structure for Puppet Master Rack Application
+mkdir -p /usr/share/puppet/rack/puppetmasterd
+mkdir /usr/share/puppet/rack/puppetmasterd/public /usr/share/puppet/rack/puppetmasterd/tmp
+cp /usr/share/puppet/ext/rack/files/config.ru /usr/share/puppet/rack/puppetmasterd/
+chown puppet /usr/share/puppet/rack/puppetmasterd/config.ru
+
+# install the passenger apache config
+cp -f /vagrant/scripts/puppetmaster.conf /etc/httpd/conf.d/puppetmaster.conf
+HOSTNAME=`hostname -f`
+sed -i "s/puppet.pem/${HOSTNAME}.pem/g" /etc/httpd/conf.d/puppetmaster.conf
+
+# start up apache
+/etc/init.d/puppetmasterd stop
+/etc/init.d/httpd start
+
+chkconfig puppetmaster off
+chkconfig httpd on
+
+grep -qs $PUPPETMASTER_IP /etc/hosts || echo "$PUPPETMASTER_IP puppet" >> /etc/hosts
+
+# netstat -ln | grep 8140
