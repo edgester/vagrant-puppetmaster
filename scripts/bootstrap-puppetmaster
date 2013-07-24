@@ -25,9 +25,9 @@ passenger-install-apache2-module -a
 
 # Create the directory structure for Puppet Master Rack Application
 mkdir -p /usr/share/puppet/rack/puppetmasterd
-mkdir /usr/share/puppet/rack/puppetmasterd/public /usr/share/puppet/rack/puppetmasterd/tmp
+mkdir -p /usr/share/puppet/rack/puppetmasterd/public /usr/share/puppet/rack/puppetmasterd/tmp
 cp /usr/share/puppet/ext/rack/files/config.ru /usr/share/puppet/rack/puppetmasterd/
-chown puppet /usr/share/puppet/rack/puppetmasterd/config.ru
+chown puppet.puppet /usr/share/puppet/rack/puppetmasterd/config.ru
 
 # install the passenger apache config
 cp -f /vagrant/scripts/puppetmaster.conf /etc/httpd/conf.d/puppetmaster.conf
