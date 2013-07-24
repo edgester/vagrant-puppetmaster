@@ -3,7 +3,7 @@
 
 PUPPETMASTER_IP="192.168.250.1"
 
-rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-6.noarch.rpm
+rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm
 
 # Download puppet-server from Puppet Labs
 yum install -y puppet-server
