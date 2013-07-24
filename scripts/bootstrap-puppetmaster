@@ -15,7 +15,7 @@ yum install -y puppet-server
 puppet resource service puppetmaster ensure=running enable=true
 
 # Download apache and necessary dependencies
-yum install -y httpd httpd-devel mod_ssl ruby-devel rubygems gcc-c++ curl-devel zlib-devel make automake
+yum install -y httpd httpd-devel mod_ssl ruby-devel rubygems gcc-c++ curl-devel zlib-devel openssl-devel make automake
 
 # Install Rack/Passenger
 gem install rack passenger
