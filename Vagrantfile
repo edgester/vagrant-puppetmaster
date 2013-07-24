@@ -96,9 +96,11 @@ Vagrant.configure("2") do |config|
 
   ################ begin puppet agent ##############
   config.vm.define :pclient do |pclient|
-    pmaster.vm.box = "CentOS-6.4-i386"
-    pmaster.vm.hostname = "puppetagent.example.org"
-    pmaster.vm.network :private_network, ip: "192.168.250.2"
+    pclient.vm.box = "CentOS-6.4-i386"
+    pclient.vm.hostname = "puppetagent.example.org"
+    pclient.vm.network :private_network, ip: "192.168.250.2"
+    pclient.vm.provision :shell,
+    :inline => 'grep -qs 192.168.250.1 /etc/hosts || echo "192.168.250.1 puppetmaster.example.com puppet" >> /etc/hosts'
   end
   ################ end puppet master ##############
 
