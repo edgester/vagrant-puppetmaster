@@ -35,7 +35,7 @@ HOSTNAME=`hostname -f`
 sed -i "s/puppet.pem/${HOSTNAME}.pem/g" /etc/httpd/conf.d/puppetmaster.conf
 
 # start up apache
-/etc/init.d/puppetmasterd stop
+/etc/init.d/puppetmaster stop
 /etc/init.d/httpd start
 
 chkconfig puppetmaster off
