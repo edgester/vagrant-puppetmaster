@@ -94,6 +94,14 @@ Vagrant.configure("2") do |config|
   end
   ################ end puppet master ##############
 
+  ################ begin puppet agent ##############
+  config.vm.define :pclient do |pclient|
+    pmaster.vm.box = "CentOS-6.4-i386"
+    pmaster.vm.hostname = "puppetagent.example.org"
+    pmaster.vm.network :private_network, ip: "192.168.250.2"
+  end
+  ################ end puppet master ##############
+
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
